@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="<%- page.language %>" prefix="og: http://ogp.me/ns# video: http://ogp.me/ns/video# ya: http://webmaster.yandex.ru/vocabularies/">
+
+<head>
+    <%- include('includes/head.ejs'); -%>
+</head>
+
+<body>
+<% /* Брендирование страницы (сразу после <body>) */ %>
+<% if (typeof page.adv === 'object' && page.adv.brand) { %>
+    <%- page.adv.brand %>
+<% } %>
+<div class="wrap">
+    <main>
+        <header class="header" id="header">
+            <%- include('includes/header.ejs'); -%>
+        </header>
+        <div class="header-search__backdrop"></div>
+        <div class="content">
+            <div class="container">
+                <div class="category-page">
+                    <nav class="breadcrumbs">
+                        <ul>
+                            <li>
+                                <a href="/"> <span><%- page.l.home %></span> </a>
+                            </li>
+                            <li>
+                                <a href="<%- movie.url %>"> <span><%- movie.title %></span> </a>
+                            </li>
+                            <li>
+                                <%- page.l.download %>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div>
+                        <% /* Реклама вверху страницы */ %>
+                        <% if (typeof page.adv === 'object' && page.adv.top) { %>
+                            <div style="text-align:center;margin:10px auto">
+                                <%- page.adv.top %>
+                            </div>
+                        <% } %>
+                        <h1 class="page-title"><%- page.h1 %></h1>
+                        <div class="category-catalog">
+                            <% /* Реклама над плеером */ %>
+                            <% if (typeof page.adv === 'object' && page.adv.over) { %>
+                                <div style="text-align:center;margin:10px auto;">
+                                    <%- page.adv.over %>
+                                </div>
+                            <% } %>
+
+                            <div class="category-header">
+                                <div class="category-header-sort watchLaterBlock" style="display:none;">
+                                    <a href="javascript:void(0);" id="watchLater" style="width: 100%;font-size: 16px">
+                                        <span><%- page.l.later %></span>
+                                    </a>
+                                </div>
+                                <div class="category-header-info">
+                                    <a href="<%- movie.url %>#about-serial"> <svg class="icon-svg-info"> <use xlink:href="#info"></use> </svg> <span><%- page.l.information %></span>
+                                    </a>
+                                    <% /* Ссылка на трейлер */ %>
+                                    <% if (page.urls.movies.trailer) { %>
+                                        <a href="<%- movie.url %>/<%- page.urls.movies.trailer %>">
+                                            <svg class="icon-svg-play"> <use xlink:href="#play"></use> </svg>
+                                            <span><%- page.l.trailer %></span>
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                            <% /* Плеер */ %>
+                            <div id="cinemapress-player">
+                                <% if (page.player) { %>
+                                    <%- page.player %>
+                                <% } %>
+                            </div>
+
+                            <% /* Реклама под плеером */ %>
+                            <% if (typeof page.adv === 'object' && page.adv.under) { %>
+                                <div style="text-align:center;margin:10px auto;">
+                                    <%- page.adv.under %>
+                                </div>
+                            <% } %>
+
+                            <div class="about-serial" id="about-serial" style="position: relative;">
+                                <% if (movie.pictures && movie.pictures.length) { %>
+                                    <div class="bg-cover-bg">
+                                        <img src="<%- movie.pictures[0].picture_min %>" class="lazy entered loaded" data-src="<%- movie.pictures[0].picture_big %>" alt="BG">
+                                    </div>
+                                <% } %>
+                                <div class="about-serial-header">
+                                    <h2 class="about-serial-header__title">«<%- movie.title %>» <%- movie.year %></h2>
+                                    <div class="about-serial-header__subtitle"><%- movie.title_full %></div>
+                                    <div class="about-serial-rating">
+                                        <div class="rating">
+                                            <div class="rating-wrap">
+                                                <% if (movie.vote) { %>
+                                                    <% for (var i = 1; i <= 10; i++) { %>
+                                                        <% if (i <= parseInt(movie.rating/10)) { %>
+                                                            <div class="rating__star rating__star_checked">
+                                                                <a href="javascript:void(0);"> <svg class="icon-svg-star"><use xlink:href="#star"></use></svg> </a>
+                                                            </div>
+                                                        <% } else { %>
+                                                            <div class="rating__star">
+                                                                <a href="javascript:void(0);"> <svg class="icon-svg-star"><use xlink:href="#star"></use></svg> </a>
+                                                            </div>
+                                                        <% } %>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <% if (movie.vote) { %>
+                                            <span class="rating-vote-count">
+                                                <span id="vote-counter"><%- movie.vote %></span> <%- page.l.votes %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="about-serial-body">
+                                    <div class="about-serial-mobile">
+                                        <div class="about-serial-poster-wrap">
+                                            <div class="about-serial-poster">
+                                                <img src="<%- movie.poster_min %>" data-src="<%- movie.poster_big %> 2x" alt="<%= movie.title %>" data-cinemapress-poster="<%- movie.poster %>" class="lazy"> <% if (movie.rating) { %><span class="about-serial__status"><%- movie.rating/10 %></span><% } %>
+                                            </div>
+                                        </div>
+                                        <div class="about-serial-info">
+                                            <ul class="about-serial-characteristics">
+                                                <% if (movie.kp_vote) { %>
+                                                    <li>
+                                                        <span class="font-light-16"><%- page.l.kp %></span>
+                                                        <span class="font-light-18"><%- movie.kp_rating / 10 %>  (<%- movie.kp_vote %>)</span>
+                                                    </li>
+                                                <% } %>
+                                                <% if (movie.imdb_vote) { %>
+                                                    <li>
+                                                        <span class="font-light-16"><%- page.l.imdb %></span>
+                                                        <span class="font-light-18"><%- movie.imdb_rating / 10 %>  (<%- movie.imdb_vote %>)</span>
+                                                    </li>
+                                                <% } %>
+                                                <% if (movie.premiere) { %>
+                                                    <li>
+                                                        <span class="font-light-16"><%- page.l.premiere %></span>
+                                                        <span class="font-light-18"><%- movie.premiere %></span>
+                                                    </li>
+                                                <% } %>
+                                                <% if (movie.translate) { %>
+                                                    <li>
+                                                        <span class="font-light-16"><%- page.l.translate %></span>
+                                                        <span class="font-light-18"><%- movie.translate %></span>
+                                                    </li>
+                                                <% } %>
+                                                <% if (movie.quality) { %>
+                                                    <li>
+                                                        <span class="font-light-16"><%- page.l.quality %></span>
+                                                        <span class="font-light-18"><%- movie.quality %></span>
+                                                    </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="about-serial-left">
+                                        <div class="about-serial-poster"> <img src="<%- movie.poster_min %>" srcset="<%- movie.poster_big %> 2x" alt="<%= movie.title %>"> <% if (movie.rating) { %><span class="about-serial__status"><%- movie.rating/10 %></span><% } %> </div>
+                                    </div>
+                                    <div class="about-serial-right">
+                                        <ul class="about-serial-characteristics">
+                                            <% if (movie.kp_vote) { %>
+                                                <li class="mobile-hidden">
+                                                    <span class="font-light-16"><%- page.l.kp %></span>
+                                                    <span class="font-light-18"><%- movie.kp_rating / 10 %> (<%- movie.kp_vote %>)</span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.imdb_vote) { %>
+                                                <li class="mobile-hidden">
+                                                    <span class="font-light-16"><%- page.l.imdb %></span>
+                                                    <span class="font-light-18"><%- movie.imdb_rating / 10 %> (<%- movie.imdb_vote %>)</span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.premiere) { %>
+                                                <li class="mobile-hidden">
+                                                    <span class="font-light-16"><%- page.l.premiere %></span>
+                                                    <span class="font-light-18"><%- movie.premiere %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.translate) { %>
+                                                <li class="mobile-hidden">
+                                                    <span class="font-light-16"><%- page.l.translate %></span>
+                                                    <span class="font-light-18"><%- movie.translate %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.quality) { %>
+                                                <li class="mobile-hidden">
+                                                    <span class="font-light-16"><%- page.l.quality %></span>
+                                                    <span class="font-light-18"><%- movie.quality %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.genres_url) { %>
+                                                <li>
+                                                    <span class="font-light-16"><%- page.l.genres %></span>
+                                                    <span class="font-light-18 lowercase"><%- movie.genres_url %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.countries_url) { %>
+                                                <li>
+                                                    <span class="font-light-16"><%- page.l.countries %></span>
+                                                    <span class="font-light-18"><%- movie.countries_url %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.tags_url) { %>
+                                                <li>
+                                                    <span class="font-light-16"><%- page.l.tags %></span>
+                                                    <span class="font-light-18"><%- movie.tags_url %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.directors_url) { %>
+                                                <li>
+                                                    <span class="font-light-16"><%- page.l.directors %></span>
+                                                    <span class="font-light-18"><%- movie.directors_url %></span>
+                                                </li>
+                                            <% } %>
+                                            <% if (movie.actors_url) { %>
+                                                <li>
+                                                    <span class="font-light-16"><%- page.l.actors %></span>
+                                                    <span class="font-light-18"><%- movie.actors_url %></span>
+                                                </li>
+                                            <% } %>
+                                        </ul>
+                                        <div class="buttons-line">
+                                            <% /* Ссылка на онлайн */ %>
+                                            <% if (page.urls.movies.online) { %>
+                                                <a class="button first-episode-link" href="<%- movie.url %>/<%- page.urls.movies.online %>" title="<%= movie.title %>"><span><%- page.l.online %></span></a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="serial-description">
+                                <% if (page.seo) { %>
+                                    <div class="serial-description-text">
+                                        <div class="show-more-wrap">
+                                            <div style="text-align: justify;">
+                                                <%- page.seo %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            </div>
+                            <div class="serial-description">
+                                <% if (movie.pictures && movie.pictures.length && movie.pictures.length > 2) { %>
+                                    <div class="serial-description-slider">
+                                        <h3 class="h2"><%- page.l.picture %></h3>
+                                        <div class="frames-serial custom-slider-container" id="frames-slider">
+                                            <div class="custom-slider__wrapper">
+                                                <% movie.pictures.forEach(function (picture) { %>
+                                                    <div class="custom-slider__slide">
+                                                        <a href="javascript:void(0);">
+                                                            <img src="<%- picture.picture_min %>" data-src="<%- picture.picture %>" data-original="<%- picture.picture_big %>" alt="<%= movie.title %>" class="lazy">
+                                                        </a>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                            <button class="custom-slider__button-prev custom-slider__button"><svg class="icon-svg-arrow-prev"><use xlink:href="#arrow-prev"></use></svg></button>
+                                            <button class="custom-slider__button-next custom-slider__button"><svg class="icon-svg-arrow-next"><use xlink:href="#arrow-next"></use></svg></button>
+                                        </div>
+                                        <div class="modal" id="modal-gallery">
+                                            <div class="modal-container modal_type_gallery">
+                                                <div class="modal-content">
+                                                    <div class="swiper-container">
+                                                        <div class="swiper-wrapper"></div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="swiper-nav-area swiper-nav-area_prev"></a> <a href="javascript:void(0);" class="swiper-nav-area swiper-nav-area_next"></a>
+                                                    <button class="swiper-button swiper-button-prev">
+                                                        <svg class="icon-svg-arrow-prev">
+                                                            <use xlink:href="#arrow-prev"></use>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="swiper-button swiper-button-next">
+                                                        <svg class="icon-svg-arrow-next">
+                                                            <use xlink:href="#arrow-next"></use>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                                <% /* Ссылка на онлайн */ %>
+                                <% if (page.urls.movies.online) { %>
+                                    <a class="button full-width first-episode-link" href="<%- movie.url %>/<%- page.urls.movies.online %>" title="<%= movie.title %>"><span><%- page.l.online %></span></a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% /* Список серий сериала */ %>
+                    <div class="episodesListBlock" style="display:none;margin:10px auto;">
+                        <div id="episodesList" data-id="<%- movie.kp_id %>"></div>
+                        <hr>
+                    </div>
+                    <% /* Блок с комментариями */ %>
+                    <%- include('includes/comments.ejs'); -%>
+                    <% /* Новости с упоминанием фильма */ %>
+                    <% if (typeof contents === 'object' && contents.length) { %>
+                        <% contents.forEach(function (content) { %>
+                            <div style="float:left;width:50%;">
+                                <div style="margin:0;padding:10px">
+                                    <a href="<%- content.url %>" class="cinemapress-news"
+                                       style="background-image:url(<%- content.image %>);">
+                                        <div class="cinemapress-news-title">
+                                            <%= content.title %>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <% }); %>
+                        <hr>
+                    <% } %>
+                    <div>
+                        <div class="similar-serials">
+                            <% /* Цикл блоков связанных фильмов */ %>
+                            <% if (typeof movies === 'object') { %>
+                                <% for (var type in movies) { %>
+                                    <% if (movies.hasOwnProperty(type) && movies[type].length) { %>
+                                        <% movies[type].forEach(function (category) { %>
+
+                                            <% /* Справа от названия ссылка на случайный фильм из блока */ %>
+                                            <div class="randomMovieRelated">
+                                                <div class="cinemapress-random-related"
+                                                     onclick="window.location.href='<%- (category.url && category.url.indexOf('?') + 1 ? category.url + '&random=' : category.url + '?random=') %><%- Math.random() %>'"
+                                                     title="<%= page.l.random %>">
+                                                    <img src="/themes/<%- page.theme %>/public/images/dice.svg" alt="<%= page.l.random %>">
+                                                </div>
+                                            </div>
+
+                                            <% /* Название блока */ %>
+                                            <div class="h2"><%- category.name %></div>
+
+                                            <% /* Цикл фильмов в блоке */ %>
+                                            <% if (typeof category === 'object' && category.movies && category.movies.length) { %>
+                                                <div class="serial_slider_wrapper">
+                                                    <div class="serial_slider swiper-container">
+                                                        <div class="swiper-wrapper">
+                                                            <% category.movies.forEach(function (movie, i) { %>
+                                                                <div class="swiper-slide">
+                                                                    <%- include('includes/single.ejs', {movie: movie, block: i}); -%>
+                                                                </div>
+                                                            <% }); %>
+                                                        </div>
+                                                        <button class="swiper-button swiper-button-prev"> <svg class="icon-svg-arrow-prev"><use xlink:href="#arrow-prev"></use></svg> </button>
+                                                        <button class="swiper-button swiper-button-next"> <svg class="icon-svg-arrow-next"><use xlink:href="#arrow-next"></use></svg> </button>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+
+                                        <% }); %>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <% /* Реклама внизу страницы */ %>
+                    <% if (typeof page.adv === 'object' && page.adv.bottom) { %>
+                        <hr>
+                        <div style="text-align:center;margin:10px auto">
+                            <%- page.adv.bottom %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <%- include('includes/footer.ejs'); -%>
+    </footer>
+</div>
+</body>
+
+</html>

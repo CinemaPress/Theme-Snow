@@ -1,0 +1,64 @@
+<div class="container">
+    <button class="menu-toggle">
+        <svg class="icon-svg-menu-toggle">
+            <use xlink:href="#menu-toggle"></use>
+        </svg>
+    </button>
+    <div class="header-left">
+        <a class="header-logo" href="/" title="Logo">
+            <img src="/themes/<%- page.theme %>/public/images/logo.svg?v=<%- page.ver %>" alt="Logo">
+        </a>
+        <div class="navigation" id="navigation">
+            <div class="navigation-wrap">
+                <nav class="navigation-links">
+                    <ul>
+                        <li>
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.movie %>#type=<%- page.urls.types.movie %>">
+                                <span><%- page.l.movies %></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.serial %>#type=<%- page.urls.types.serial %>">
+                                <span><%- page.l.series %></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.anime %>#genre=<%- page.urls.types.anime %>">
+                                <span><%- page.l.anime %></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="header-right">
+        <span class="continueViewingBlock" style="display:none">
+            <a class="btn__random" href="javascript:void(0)" id="continueViewing">
+                <svg class="icon-svg-play"><use xlink:href="#play2"></use></svg>
+            </a>
+        </span>
+        <span class="randomMovieMenu" style="display:none">
+            <a class="btn__random" href="/?random=<%- Math.random() %>">
+                <svg class="icon-svg-random"><use xlink:href="#random"></use></svg>
+            </a>
+        </span>
+        <a class="btn__search" href="javascript:void(0);">
+            <svg class="icon-svg-search"><use xlink:href="#search"></use></svg>
+        </a>
+    </div>
+    <div class="header-search-field">
+        <button class="header-search__button-close">
+            <svg class="icon-svg-close"><use xlink:href="#close"></use></svg>
+        </button>
+        <form action="/<%- page.urls.search %>" method="get">
+            <div class="form-item">
+                <input type="text" name="q" id="search-top-field" data-autocomplete="desktop">
+                <button class="header-search__button-submit">
+                    <svg class="icon-svg-search"><use xlink:href="#search"></use></svg>
+                </button>
+                <div class="cinemapress-autocomplete" data-autocomplete="desktop" style="margin-top: 5px;"></div>
+            </div>
+        </form>
+    </div>
+</div>

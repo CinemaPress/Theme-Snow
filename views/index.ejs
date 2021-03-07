@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="<%- page.language %>">
+
+<head>
+    <%- include('includes/head.ejs'); -%>
+</head>
+
+<body>
+<% /* Брендирование страницы (сразу после <body>) */ %>
+<% if (typeof page.adv === 'object' && page.adv.brand) { %>
+    <%- page.adv.brand %>
+<% } %>
+    <div class="wrap">
+        <main>
+            <header class="header" id="header">
+                <%- include('includes/header.ejs'); -%>
+            </header>
+            <div class="header-search__backdrop"></div>
+            <div class="content">
+                <div class="container">
+                    <div class="main-page">
+                        <% /* Реклама вверху страницы */ %>
+                        <% if (typeof page.adv === 'object' && page.adv.top) { %>
+                            <div style="text-align:center;margin:10px auto">
+                                <%- page.adv.top %>
+                            </div>
+                        <% } %>
+                        <h1 class="page-title"><%- page.h1 %></h1>
+                        <% /* Блок серий на главной странице */ %>
+                        <% if (typeof index === 'object') { %>
+                            <% for (var type in index) { %>
+                                <% if (index.hasOwnProperty(type) && index[type].length && type === 'episode') { %>
+                                    <% index[type].forEach(function (category) { %>
+
+                                        <div class="last-episodes">
+                                            <div class="catalog">
+
+                                                <% /* Цикл серий в блоке */ %>
+                                                <% var moreEpisodes = false; %>
+                                                <% if (typeof category === 'object' && category.movies && category.movies.length) { %>
+                                                    <% category.movies.forEach(function (movie) { %>
+                                                        <% /* Выводим ограниченное число серий, остальные скрываем */ %>
+                                                        <div class="catalog-item" <% if (movie.hide) { moreEpisodes = true; %>style="display:none" data-more-episodes<% } %>>
+                                                            <a href="<%- movie.url %>" title="<%= movie.title %>"></a>
+                                                            <div class="catalog-item__img"> <img src="<%- movie.picture_min %>" data-src="<%- movie.picture %>" alt="<%= movie.title %>" class="lazy"> <svg class="icon-svg-play"><use xlink:href="#play"></use></svg> </div>
+                                                            <% if (movie.translate) { %>
+                                                                <div class=" catalog-item__sounds">
+                                                                    <a href="javascript:void(0)">
+                                                                        <span>
+                                                                            <% /* Озвучка */ %>
+                                                                            <%- movie.translate %>
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                            <% } %>
+                                                            <div class="catalog-item__title"><%- movie.title %></div>
+                                                            <span class="catalog-item__episode-number">
+                                                                <% if (movie.season && movie.episode) { %>
+                                                                    <% /* Сезон */ %>
+                                                                    <%- movie.season %> <%- page.l.season %>
+                                                                    <% /* Эпизод */ %>
+                                                                    <%- movie.episode %> <%- page.l.episode %>
+                                                                <% } %>
+                                                            </span>
+                                                        </div>
+                                                    <% }); %>
+                                                <% } %>
+
+                                            </div>
+                                        </div>
+
+                                        <% /* Выводим кнопку для показа большего числа серий */ %>
+                                        <% if (moreEpisodes) { %>
+                                            <a href="javascript:void(0)" class="moreEpisodes button button_type_border full-width last-episodes__button" onclick="var dme = document.querySelectorAll('[data-more-episodes]'); dme && dme.forEach(function(e) {e.style.display='block'});this.style.display='none'"> <span><%- page.l.moreEpisodes %></span></a>
+                                        <% } %>
+
+                                    <% }); %>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                        <div>
+                            <% if (typeof slider === 'object' && slider.length || typeof soon === 'object' && soon.length) { %>
+                                <div class="novelty" id="novelty-component">
+                                    <div class="tabs novelty__tabs" data-custom-toggle="" role="tablist">
+                                        <div class="tabs-list">
+                                            <a href="#popular" class="tabs-list__item" aria-selected="true" role="tab"> <span><%- page.l.top %></span></a>
+                                            <a href="#premieres" class="tabs-list__item" aria-selected="false" role="tab"> <span><%- page.l.soon %></span></a>
+                                        </div>
+                                        <div class="tabs-content">
+                                            <div class="tabs-content-wrap" aria-hidden="false" id="popular">
+                                                <div class="serial_slider_wrapper">
+                                                    <div class="serial_slider swiper-container">
+                                                        <div class="swiper-wrapper">
+                                                            <% /* Слайдер с фильмами */ %>
+                                                            <% if (typeof slider === 'object' && slider.length) { %>
+                                                                <% slider.forEach(function (movie, i) { %>
+                                                                    <div class="swiper-slide">
+                                                                        <%- include('includes/single.ejs', {movie: movie, block: 'slider' + i}); -%>
+                                                                    </div>
+                                                                <% }); %>
+                                                            <% } %>
+                                                        </div>
+                                                        <button class="swiper-button swiper-button-prev"> <svg class="icon-svg-arrow-prev"><use xlink:href="#arrow-prev"></use></svg> </button>
+                                                        <button class="swiper-button swiper-button-next"> <svg class="icon-svg-arrow-next"><use xlink:href="#arrow-next"></use></svg> </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tabs-content-wrap" aria-hidden="true" id="premieres">
+                                                <div class="serial_slider_wrapper">
+                                                    <div class="serial_slider swiper-container">
+                                                        <div class="swiper-wrapper">
+                                                            <% /* Ближайшие премьеры фильмов */ %>
+                                                            <% if (typeof soon === 'object' && soon.length) { %>
+                                                                <% soon.forEach(function (movie, i) { %>
+                                                                    <div class="swiper-slide">
+                                                                        <%- include('includes/single.ejs', {movie: movie, block: 'soon' + i}); -%>
+                                                                    </div>
+                                                                <% }); %>
+                                                            <% } %>
+                                                        </div>
+                                                        <button class="swiper-button swiper-button-prev"> <svg class="icon-svg-arrow-prev"><use xlink:href="#arrow-prev"></use></svg>
+                                                        </button> <button class="swiper-button swiper-button-next"> <svg class="icon-svg-arrow-next"><use xlink:href="#arrow-next"></use></svg> </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <div data-server-rendered="false" class="catalog-full">
+                                <h2 class="h1 text-center"><%- page.l.filter %></h2>
+                                <div id="filter" class="filter">
+                                    <div class="filter-container">
+                                        <div>
+                                            <div class="filter-slider">
+                                                <div id="cinemapress-slider"></div>
+                                            </div>
+                                            <div class="filter-bottom-block" id="cinemapress-filter">
+                                                <div class="custom-select select form-control select-init">
+                                                    <select data-url="<%- page.urls.type %>" data-url_name="type">
+                                                        <option value=""></option>
+                                                        <option value="<%- page.urls.types.movie %>" selected="selected"><%- page.l.movies %></option>
+                                                        <option value="<%- page.urls.types.serial %>"><%- page.l.series %></option>
+                                                    </select>
+                                                </div>
+                                                <div class="custom-select select form-control select-init">
+                                                    <select data-url="<%- page.urls.genre %>" data-url_name="genre">
+                                                        <option value="" selected="selected"><%- page.l.genre %>:</option>
+                                                        <% /* Жанры (список в настройках отображения) */ %>
+                                                        <% page.urls.genres.forEach(function(genre) { %>
+                                                            <option value="<%- genre.title %>"><%- genre.title %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <div class="custom-select select form-control select-init">
+                                                    <select data-url="<%- page.urls.country %>" data-url_name="country">
+                                                        <option value="" selected="selected"><%- page.l.country %>:</option>
+                                                        <% /* Жанры (список в настройках отображения) */ %>
+                                                        <% page.urls.countries.forEach(function(country) { %>
+                                                            <option value="<%- country.title %>"><%- country.title %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <div class="custom-select select form-control select-init">
+                                                    <select data-url="sorting" data-url_name="sorting">
+                                                        <option value="" selected="selected"><%- page.l.sorting %>:</option>
+                                                        <option value="kinopoisk-rating-up"><%- page.l['kinopoisk-rating-up'] %></option>
+                                                        <option value="imdb-rating-up"><%- page.l['imdb-rating-up'] %></option>
+                                                        <option value="kinopoisk-vote-up"><%- page.l['kinopoisk-vote-up'] %></option>
+                                                        <option value="imdb-vote-up"><%- page.l['imdb-vote-up'] %></option>
+                                                        <option value="year-up"><%- page.l['year-up'] %></option>
+                                                        <option value="premiere-up"><%- page.l['premiere-up'] %></option>
+                                                    </select>
+                                                </div>
+                                                <button id="reset-filter" class="button button_type_border">
+                                                    <span><%- page.l.reset %></span>
+                                                </button>
+                                                <button id="submit-filter" class="button">
+                                                    <span><%- page.l.search %></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:void(0)" class="button button_type_with-icon full-width button__random-dorama" id="random-filter">
+                                            <svg class="icon-svg-random"><use xlink:href="#random"></use></svg>
+                                            <span><%- page.l.lucky %></span>
+                                        </a>
+                                    </div>
+                                    <script src="/themes/<%- page.theme %>/public/js/nouislider.min.js?v=<%- page.ver %>"></script>
+                                    <script>
+                                        var cinemapress_filter = document.getElementById('cinemapress-filter').innerHTML;
+                                        var cinemapress_slider = document.getElementById('cinemapress-slider');
+                                        var year_min = parseInt('<%- page.urls.years[page.urls.years.length-1].title %>');
+                                        var year_max = parseInt('<%- page.urls.years[0].title %>');
+                                        var page_urls_search = '<%- page.urls.search %>';
+                                        var page_urls_year = '<%- page.urls.year %>';
+
+                                        function customSlider() {
+                                            cinemapress_slider = document.getElementById('cinemapress-slider');
+                                            noUiSlider.create(cinemapress_slider, {
+                                                start: [year_min, year_max],
+                                                connect: true,
+                                                step: 1,
+                                                range: {
+                                                    'min': [year_min],
+                                                    'max': [year_max]
+                                                },
+                                                tooltips: [true, true],
+                                                pips: {
+                                                    mode: 'count',
+                                                    values: 11,
+                                                    density: 1,
+                                                    stepped: true
+                                                },
+                                                format: {
+                                                    to: (v) => parseFloat(v).toFixed(0),
+                                                    from: (v) => parseFloat(v).toFixed(0)
+                                                }
+                                            });
+                                        }
+                                        function customSelect() {
+                                            var x, i, j, l, ll, selElement, a, b, c;
+                                            x = document.getElementsByClassName("custom-select");
+                                            l = x.length;
+                                            for (i = 0; i < l; i++) {
+                                                selElement = x[i].getElementsByTagName("select")[0];
+                                                ll = selElement.length;
+                                                a = document.createElement("DIV");
+                                                a.setAttribute("class", "select-selected");
+                                                a.innerHTML = selElement.options[selElement.selectedIndex].innerHTML;
+                                                x[i].appendChild(a);
+                                                b = document.createElement("DIV");
+                                                b.setAttribute("class", "select-items select-hide");
+                                                for (j = 1; j < ll; j++) {
+                                                    c = document.createElement("DIV");
+                                                    c.innerHTML = selElement.options[j].innerHTML;
+                                                    c.addEventListener("click", function(e) {
+                                                        var y, i, k, s, h, sl, yl;
+                                                        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                                                        sl = s.length;
+                                                        h = this.parentNode.previousSibling;
+                                                        for (i = 0; i < sl; i++) {
+                                                            if (s.options[i].innerHTML === this.innerHTML) {
+                                                                s.selectedIndex = i;
+                                                                h.innerHTML = this.innerHTML;
+                                                                y = this.parentNode.getElementsByClassName("same-as-selected");
+                                                                yl = y.length;
+                                                                for (k = 0; k < yl; k++) {
+                                                                    y[k].removeAttribute("class");
+                                                                }
+                                                                this.setAttribute("class", "same-as-selected");
+                                                                break;
+                                                            }
+                                                        }
+                                                        h.click();
+                                                    });
+                                                    b.appendChild(c);
+                                                }
+                                                x[i].appendChild(b);
+                                                a.addEventListener("click", function(e) {
+                                                    e.stopPropagation();
+                                                    closeAllSelect(this);
+                                                    this.nextSibling.classList.toggle("select-hide");
+                                                    this.classList.toggle("select-arrow-active");
+                                                });
+                                            }
+                                        }
+
+                                        function closeAllSelect(e) {
+                                            var x, y, i, xl, yl, arrNo = [];
+                                            x = document.getElementsByClassName("select-items");
+                                            y = document.getElementsByClassName("select-selected");
+                                            xl = x.length;
+                                            yl = y.length;
+                                            for (i = 0; i < yl; i++) {
+                                                if (e === y[i]) {
+                                                    arrNo.push(i)
+                                                } else {
+                                                    y[i].classList.remove("select-arrow-active");
+                                                }
+                                            }
+                                            for (i = 0; i < xl; i++) {
+                                                if (arrNo.indexOf(i)) {
+                                                    x[i].classList.add("select-hide");
+                                                }
+                                            }
+                                        }
+
+                                        function submitData() {
+                                            var years = cinemapress_slider.noUiSlider.get();
+                                            var year = years[0] === years[1] ? years[0] : years[0] + '-' + years[1];
+                                            var url = '/' + page_urls_search + '?' + page_urls_year + '=' + year;
+                                            var hash = '#year=' + year;
+                                            document.querySelectorAll('[data-url]').forEach(function(e) {
+                                                var v = encodeURIComponent(e.value || e.options[e.selectedIndex].value);
+                                                if (v) {
+                                                    hash += '|' + e.dataset.url_name + '=' + v;
+                                                    url += '&' + e.dataset.url + '=' + v;
+                                                }
+                                            });
+                                            window.location.href = url + hash;
+                                        }
+
+                                        function resetData() {
+                                            cinemapress_slider.noUiSlider.set([year_min, year_max]);
+                                            document.querySelectorAll('[data-url]').forEach(function(s) {
+                                                s.selectedIndex = null;
+                                            });
+                                            document.getElementById('cinemapress-filter').innerHTML = cinemapress_filter;
+                                            document.getElementById('random-filter').addEventListener('click', randomData);
+                                            document.getElementById('reset-filter').addEventListener('click', resetData);
+                                            document.getElementById('submit-filter').addEventListener('click', submitData);
+                                            customSelect();
+                                        }
+
+                                        function randomData() {
+                                            var years = cinemapress_slider.noUiSlider.get();
+                                            var year = years[0] === years[1] ? years[0] : years[0] + '-' + years[1];
+                                            var url = '/' + page_urls_search + '?' + page_urls_year + '=' + year;
+                                            document.querySelectorAll('[data-url]').forEach(function(e) {
+                                                var v = encodeURIComponent(e.value || e.options[e.selectedIndex].value);
+                                                if (v) {
+                                                    url += '&' + e.dataset.url + '=' + v;
+                                                }
+                                            });
+                                            window.location.href = url + '&random=' + Math.random();
+                                        }
+
+                                        function setHashData() {
+                                            customSlider();
+                                            if(window.location.hash) {
+                                                var hash = decodeURIComponent(window.location.hash.substring(1));
+                                                hash.split('|').forEach(function (key_val) {
+                                                    if (key_val.indexOf('=') + 1) {
+                                                        var key = key_val.split('=')[0];
+                                                        var val = key_val.split('=')[1];
+                                                        if (key === 'year') {
+                                                            var year = val.split('-');
+                                                            var year_min_new = parseInt(year[0]);
+                                                            var year_max_new = parseInt(year[1] || year[0]);
+                                                            cinemapress_slider.noUiSlider.set([year_min_new, year_max_new]);
+                                                        }
+                                                        var el_opt = document.querySelectorAll('[data-url]');
+                                                        el_opt.forEach(function(e) {
+                                                            if (e.dataset.url_name === key) {
+                                                                for (var i = 0; i < e.options.length; i++) {
+                                                                    if (e.options[i].value === val) {
+                                                                        e.options[i].selected = true;
+                                                                        e.selectedIndex = i;
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                })
+                                            }
+                                            customSelect();
+                                        }
+
+                                        document.getElementById('random-filter').addEventListener('click', randomData);
+                                        document.getElementById('reset-filter').addEventListener('click', resetData);
+                                        document.getElementById('submit-filter').addEventListener('click', submitData);
+                                        document.addEventListener('click', closeAllSelect);
+                                        setHashData();
+                                    </script>
+                                    <style>
+                                        .custom-select{position:relative;background:0 0;border:1px #72436f solid;border-radius:8px;color:#e79899}.custom-select select{display:none}.select-selected{background:0 0}.select-selected:after{position:absolute;content:"";top:18px;right:10px;width:0;height:0;border:6px solid transparent;border-color:#f07d7f transparent transparent transparent}.select-selected.select-arrow-active:after{border-color:transparent transparent #964c8c transparent;top:10px}.select-items div,.select-selected{color:#e79899;padding:8px 16px;border:1px solid transparent;cursor:pointer;user-select:none}.select-items{position:absolute;background:0 0;color:#e79899;top:100%;left:0;right:0;z-index:99}.select-hide{display:none}.select-items{border:1px #563550 solid;border-radius:8px;background-color:rgba(0,0,0,.7)}.select-items div{color:#fff;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.same-as-selected,.select-items div:hover{border-radius:8px;background-color:rgba(0,0,0,.3)}.filter-slider{margin:60px auto;padding:10px 25px 10px 10px}.noUi-connect{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0}.noUi-horizontal .noUi-handle,.noUi-vertical .noUi-handle{background-image:-webkit-gradient(linear,left top,right top,from(#944b8c),to(#f37f7f));background-image:-o-linear-gradient(left,#944b8c,#f37f7f);background-image:linear-gradient(to right,#944b8c,#f37f7f)}.noUi-value{color:#72436f!important}.noUi-marker{color:#302f3f!important;background:#302f3f!important}.noUi-horizontal{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0;color:#fff}.noUi-target.noUi-horizontal{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0;color:#fff}.noUi-tooltip{background-image:-webkit-gradient(linear,left top,right top,from(#944b8c),to(#f37f7f));background-image:-o-linear-gradient(left,#944b8c,#f37f7f);background-image:linear-gradient(to right,#944b8c,#f37f7f);border:0;color:#fff}.noUi-horizontal{height:10px!important;border:0!important;background:#302f3f!important;box-shadow:none!important}.noUi-handle{box-shadow:none!important;border-radius:100%!important;border:0!important;width:20px!important;height:20px!important}.noUi-handle::after,.noUi-handle::before{background:0 0!important}.select-selected{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+                                    </style>
+                                </div>
+                                <div class="last-episodes-day">
+                                    <% /* Цикл блоков фильмов на главной странице */ %>
+                                    <% if (typeof index === 'object') { %>
+                                        <% for (var type in index) { %>
+                                            <% if (index.hasOwnProperty(type) && index[type].length && type !== 'episode') { %>
+                                                <% index[type].forEach(function (category, c) { %>
+
+                                                    <% /* Справа от названия ссылка на случайный фильм из блока */ %>
+                                                    <div class="randomMovieIndex">
+                                                        <div class="cinemapress-random-index"
+                                                             onclick="window.location.href='<%- category.url %>?random'"
+                                                             title="<%- page.l.random %>">
+                                                            <img src="/themes/<%- page.theme %>/public/images/dice.svg" alt="<%- page.l.random %>">
+                                                        </div>
+                                                    </div>
+
+                                                    <% /* Название блока */ %>
+                                                    <div class="last-episodes-day__title"><span><%- category.name %></span></div>
+
+                                                    <div class="catalog catalog_5">
+                                                        <% /* Цикл фильмов в блоке */ %>
+                                                        <% if (typeof category === 'object' && category.movies && category.movies.length) { %>
+                                                            <% category.movies.forEach(function (movie, i) { %>
+
+                                                                <%- include('includes/single.ejs', {movie: movie, block: c + '' + i}); -%>
+
+                                                            <% }); %>
+                                                        <% } %>
+                                                    </div>
+
+                                                <% }); %>
+                                            <% } %>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <% /* Блок с новостями */ %>
+                        <% if (typeof news === 'object' && news.length) { %>
+                            <% news.forEach(function (content) { %>
+                                <div style="float:left;width:50%;">
+                                    <div style="margin:10px 0;padding:10px">
+                                        <a href="<%- content.url %>" class="cinemapress-news"
+                                           style="background-image:url('<%- content.image %>');">
+                                            <div class="cinemapress-news-title"><%= content.title %></div>
+                                        </a>
+                                    </div>
+                                </div>
+                            <% }); %>
+                            <hr>
+                        <% } %>
+                        <% /* Реклама внизу страницы */ %>
+                        <% if (typeof page.adv === 'object' && page.adv.bottom) { %>
+                            <div style="text-align:center;margin:10px auto">
+                                <%- page.adv.bottom %>
+                            </div>
+                            <hr>
+                        <% } %>
+                        <div class="page-description">
+                            <% /* Описание сайта */ %>
+                            <% if (page.seo) { %>
+                                <div style="text-align:justify;margin:10px auto">
+                                    <%- page.seo %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <%- include('includes/footer.ejs'); -%>
+        </footer>
+    </div>
+</body>
+
+</html>

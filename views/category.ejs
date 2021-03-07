@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="<%- page.language %>">
+
+<head>
+    <%- include('includes/head.ejs'); -%>
+</head>
+
+<body>
+<% /* Брендирование страницы (сразу после <body>) */ %>
+<% if (typeof page.adv === 'object' && page.adv.brand) { %>
+    <%- page.adv.brand %>
+<% } %>
+    <div class="wrap">
+        <main>
+            <header class="header" id="header">
+                <%- include('includes/header.ejs'); -%>
+            </header>
+            <div class="header-search__backdrop"></div>
+            <div class="content">
+                <div class="container">
+                    <div class="last-episodes-page">
+                        <nav class="breadcrumbs">
+                            <ul>
+                                <li>
+                                    <a href="/"> <span><%- page.l.home %></span> </a>
+                                </li>
+                                <li>
+                                    <%= page.title %>
+                                </li>
+                            </ul>
+                        </nav>
+                        <% /* Реклама вверху страницы */ %>
+                        <% if (typeof page.adv === 'object' && page.adv.top) { %>
+                            <div style="text-align:center;margin:10px auto">
+                                <%- page.adv.top %>
+                            </div>
+                        <% } %>
+                        <h1 class="page-title"><%- page.h1 %></h1>
+                        <% /* Контент новости */ %>
+                        <% if (typeof content === 'object') { %>
+                            <div class="cinemapress-content">
+                                <% /* Изображение новости */ %>
+                                <% if (content.image) { %>
+                                    <img src="<%- content.image %>" class="cinemapress-content-image" alt="Image">
+                                <% } %>
+                                <% /* Описание новости */ %>
+                                <% if (content.description) { %>
+                                    <div class="cinemapress-content-description">
+                                        <%- content.description %>
+                                    </div>
+                                <% } %>
+                                <div class="cinemapress-content-publish" style="vertical-align: middle;">
+                                    <% /* Список тегов */ %>
+                                    <% if (content.tags) { %>
+                                        <span class="cinemapress-content-publish-tags" style="vertical-align: middle;"><img
+                                                    src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU1LjI1IDU1LjI1IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NS4yNSA1NS4yNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8Zz4KCTxwYXRoIGQ9Ik0wLjUyMyw1MS45MzNsLTAuNDk3LDIuMDg1Yy0wLjAxNiwwLjA2Ny0wLjAyLDAuMTM1LTAuMDIyLDAuMjAyQzAuMDA0LDU0LjIzNCwwLDU0LjI0NiwwLDU0LjI1OSAgIGMwLjAwMSwwLjExNCwwLjAyNiwwLjIyNSwwLjA2NSwwLjMzMmMwLjAwOSwwLjAyNSwwLjAxOSwwLjA0NywwLjAzLDAuMDcxYzAuMDQ5LDAuMTA3LDAuMTEsMC4yMSwwLjE5NiwwLjI5NiAgIGMwLjA5NSwwLjA5NSwwLjIwNywwLjE2OCwwLjMyOCwwLjIxOGMwLjEyMSwwLjA1LDAuMjUsMC4wNzUsMC4zNzksMC4wNzVjMC4wNzcsMCwwLjE1NS0wLjAwOSwwLjIzMS0wLjAyN2wyLjA4Ni0wLjQ5NyAgIEwwLjUyMyw1MS45MzN6IiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJNNTIuNjE4LDIuNjMxYy0zLjUxLTMuNTA4LTkuMjE5LTMuNTA4LTEyLjcyOSwwTDMuODI3LDM4LjY5M0MzLjgxLDM4LjcxLDMuOCwzOC43MzEsMy43ODUsMzguNzQ5ICAgYy0wLjAyMSwwLjAyNC0wLjAzOSwwLjA1LTAuMDU4LDAuMDc2Yy0wLjA1MywwLjA3NC0wLjA5NCwwLjE1My0wLjEyNSwwLjIzOWMtMC4wMDksMC4wMjYtMC4wMjIsMC4wNDktMC4wMjksMC4wNzUgICBjLTAuMDAzLDAuMDEtMC4wMDksMC4wMi0wLjAxMiwwLjAzbC0yLjQ5NSwxMC40OEw1LjYsNTQuMTgybDEwLjQ4LTIuNDk1YzAuMDI3LTAuMDA2LDAuMDUxLTAuMDIxLDAuMDc3LTAuMDMgICBjMC4wMzQtMC4wMTEsMC4wNjYtMC4wMjQsMC4wOTktMC4wMzljMC4wNzItMC4wMzMsMC4xMzktMC4wNzQsMC4yMDEtMC4xMjNjMC4wMjQtMC4wMTksMC4wNDktMC4wMzMsMC4wNzItMC4wNTQgICBjMC4wMDgtMC4wMDgsMC4wMTgtMC4wMTIsMC4wMjYtMC4wMmwzNi4wNjMtMzYuMDYzQzU2LjEyNywxMS44NSw1Ni4xMjcsNi4xNCw1Mi42MTgsMi42MzF6IE0xNy4xNTcsNDcuOTkybDAuMzU0LTMuMTgzICAgTDM5Ljg4OSwyMi40M2MwLjM5MS0wLjM5MSwwLjM5MS0xLjAyMywwLTEuNDE0cy0xLjAyMy0wLjM5MS0xLjQxNCwwTDE2LjA5Nyw0My4zOTVsLTQuNzczLDAuNTNsMC41My00Ljc3M2wyMi4zOC0yMi4zNzggICBjMC4zOTEtMC4zOTEsMC4zOTEtMS4wMjMsMC0xLjQxNHMtMS4wMjMtMC4zOTEtMS40MTQsMEwxMC40NCwzNy43MzhsLTMuMTgzLDAuMzU0TDM0Ljk0LDEwLjQwOWw5LjksOS45TDE3LjE1Nyw0Ny45OTJ6ICAgIE00Ni4yNTQsMTguODk1bC05LjktOS45bDEuNDE0LTEuNDE0bDkuOSw5LjlMNDYuMjU0LDE4Ljg5NXogTTQ5LjA4MiwxNi4wNjdsLTkuOS05LjlsMS40MTUtMS40MTVsOS45LDkuOUw0OS4wODIsMTYuMDY3eiIgZmlsbD0iI0ZGRkZGRiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo="
+                                                    alt="Tags"
+                                                    style="width: 10px;vertical-align: middle;"> <%- content.tags %></span>
+                                    <% } %>
+                                    <% /* Дата публикации */ %>
+                                    <% if (content.publish) { %>
+                                        <span class="cinemapress-content-publish-publish" style="vertical-align: middle;"><img
+                                                    src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDYwIDYwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2MCA2MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8Zz4KCTxjaXJjbGUgY3g9IjMwIiBjeT0iMjkuODc5IiByPSIyIiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJNMzAsMEMxMy40NTgsMCwwLDEzLjQ1OCwwLDMwczEzLjQ1OCwzMCwzMCwzMHMzMC0xMy40NTgsMzAtMzBTNDYuNTQyLDAsMzAsMHogTTI5LDcuODc5YzAtMC41NTMsMC40NDgtMSwxLTFzMSwwLjQ0NywxLDEgICB2MWMwLDAuNTUzLTAuNDQ4LDEtMSwxcy0xLTAuNDQ3LTEtMVY3Ljg3OXogTTksMzAuODc5SDhjLTAuNTUyLDAtMS0wLjQ0Ny0xLTFzMC40NDgtMSwxLTFoMWMwLjU1MiwwLDEsMC40NDcsMSwxICAgUzkuNTUyLDMwLjg3OSw5LDMwLjg3OXogTTE1Ljg1OCw0NS40MzZsLTAuNzA3LDAuNzA3Yy0wLjE5NSwwLjE5NS0wLjQ1MSwwLjI5My0wLjcwNywwLjI5M3MtMC41MTItMC4wOTgtMC43MDctMC4yOTMgICBjLTAuMzkxLTAuMzkxLTAuMzkxLTEuMDIzLDAtMS40MTRsMC43MDctMC43MDdjMC4zOTEtMC4zOTEsMS4wMjMtMC4zOTEsMS40MTQsMFMxNi4yNDksNDUuMDQ1LDE1Ljg1OCw0NS40MzZ6IE0xNS44NTgsMTUuNzM2ICAgYy0wLjE5NSwwLjE5NS0wLjQ1MSwwLjI5My0wLjcwNywwLjI5M3MtMC41MTItMC4wOTgtMC43MDctMC4yOTNsLTAuNzA3LTAuNzA3Yy0wLjM5MS0wLjM5MS0wLjM5MS0xLjAyMywwLTEuNDE0ICAgczEuMDIzLTAuMzkxLDEuNDE0LDBsMC43MDcsMC43MDdDMTYuMjQ5LDE0LjcxMywxNi4yNDksMTUuMzQ2LDE1Ljg1OCwxNS43MzZ6IE0zMSw1MS44NzljMCwwLjU1My0wLjQ0OCwxLTEsMXMtMS0wLjQ0Ny0xLTF2LTEgICBjMC0wLjU1MywwLjQ0OC0xLDEtMXMxLDAuNDQ3LDEsMVY1MS44Nzl6IE0zMCwzMy44NzljLTEuODU4LDAtMy40MTEtMS4yOC0zLjg1OC0zSDE5Yy0wLjU1MiwwLTEtMC40NDctMS0xczAuNDQ4LTEsMS0xaDcuMTQyICAgYzAuMzY0LTEuMzk5LDEuNDU5LTIuNDk0LDIuODU4LTIuODU4VjE1Ljg3OWMwLTAuNTUzLDAuNDQ4LTEsMS0xczEsMC40NDcsMSwxdjEwLjE0MmMxLjcyLDAuNDQ3LDMsMS45OTksMywzLjg1OCAgIEMzNCwzMi4wODUsMzIuMjA2LDMzLjg3OSwzMCwzMy44Nzl6IE00Ni4yNjMsNDYuMTQzYy0wLjE5NSwwLjE5NS0wLjQ1MSwwLjI5My0wLjcwNywwLjI5M3MtMC41MTItMC4wOTgtMC43MDctMC4yOTNsLTAuNzA3LTAuNzA3ICAgYy0wLjM5MS0wLjM5MS0wLjM5MS0xLjAyMywwLTEuNDE0czEuMDIzLTAuMzkxLDEuNDE0LDBsMC43MDcsMC43MDdDNDYuNjU0LDQ1LjExOSw0Ni42NTQsNDUuNzUyLDQ2LjI2Myw0Ni4xNDN6IE00Ni4yNjMsMTUuMDI5ICAgbC0wLjcwNywwLjcwN2MtMC4xOTUsMC4xOTUtMC40NTEsMC4yOTMtMC43MDcsMC4yOTNzLTAuNTEyLTAuMDk4LTAuNzA3LTAuMjkzYy0wLjM5MS0wLjM5MS0wLjM5MS0xLjAyMywwLTEuNDE0bDAuNzA3LTAuNzA3ICAgYzAuMzkxLTAuMzkxLDEuMDIzLTAuMzkxLDEuNDE0LDBTNDYuNjU0LDE0LjYzOSw0Ni4yNjMsMTUuMDI5eiBNNTIsMzAuODc5aC0xYy0wLjU1MiwwLTEtMC40NDctMS0xczAuNDQ4LTEsMS0xaDEgICBjMC41NTIsMCwxLDAuNDQ3LDEsMVM1Mi41NTIsMzAuODc5LDUyLDMwLjg3OXoiIGZpbGw9IiNGRkZGRkYiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K"
+                                                    alt="Publish"
+                                                    style="width: 10px;vertical-align: middle;"> <%- content.publish %></span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <% /* Блок с комментариями для новости */ %>
+                            <% if (typeof content === 'object') { %>
+                                <%- include('includes/comments.ejs'); -%>
+                            <% } %>
+                        <% } else { %>
+                            <div id="filter" class="filter">
+                                <div class="filter-container" style="display: none">
+                                    <div>
+                                        <div class="filter-slider">
+                                            <div id="cinemapress-slider"></div>
+                                        </div>
+                                        <div class="filter-bottom-block" id="cinemapress-filter">
+                                            <div class="custom-select select form-control select-init">
+                                                <select data-url="<%- page.urls.type %>" data-url_name="type">
+                                                    <option value=""></option>
+                                                    <option value="<%- page.urls.types.movie %>" selected="selected"><%- page.l.movies %></option>
+                                                    <option value="<%- page.urls.types.serial %>"><%- page.l.series %></option>
+                                                </select>
+                                            </div>
+                                            <div class="custom-select select form-control select-init">
+                                                <select data-url="<%- page.urls.genre %>" data-url_name="genre">
+                                                    <option value="" selected="selected"><%- page.l.genre %>:</option>
+                                                    <% /* Жанры (список в настройках отображения) */ %>
+                                                    <% page.urls.genres.forEach(function(genre) { %>
+                                                        <option value="<%- genre.title %>"><%- genre.title %></option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                            <div class="custom-select select form-control select-init">
+                                                <select data-url="<%- page.urls.country %>" data-url_name="country">
+                                                    <option value="" selected="selected"><%- page.l.country %>:</option>
+                                                    <% /* Жанры (список в настройках отображения) */ %>
+                                                    <% page.urls.countries.forEach(function(country) { %>
+                                                        <option value="<%- country.title %>"><%- country.title %></option>
+                                                    <% }); %>
+                                                </select>
+                                            </div>
+                                            <div class="custom-select select form-control select-init">
+                                                <select data-url="sorting" data-url_name="sorting">
+                                                    <option value="" selected="selected"><%- page.l.sorting %>:</option>
+                                                    <option value="kinopoisk-rating-up"><%- page.l['kinopoisk-rating-up'] %></option>
+                                                    <option value="imdb-rating-up"><%- page.l['imdb-rating-up'] %></option>
+                                                    <option value="kinopoisk-vote-up"><%- page.l['kinopoisk-vote-up'] %></option>
+                                                    <option value="imdb-vote-up"><%- page.l['imdb-vote-up'] %></option>
+                                                    <option value="year-up"><%- page.l['year-up'] %></option>
+                                                    <option value="premiere-up"><%- page.l['premiere-up'] %></option>
+                                                </select>
+                                            </div>
+                                            <button id="reset-filter" class="button button_type_border">
+                                                <span><%- page.l.reset %></span>
+                                            </button>
+                                            <button id="submit-filter" class="button">
+                                                <span><%- page.l.search %></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <style>
+                                    .filter-random-block {
+                                        display: grid;
+                                        grid-gap: 10px 5px;
+                                        grid-auto-rows: auto;
+                                        grid-template-columns: 3fr 0.9fr;
+                                        margin: 20px auto;
+                                    }
+                                </style>
+                                <div class="filter-random-block">
+                                    <a href="javascript:void(0)" class="button button_type_with-icon full-width" id="random-filter">
+                                        <svg class="icon-svg-random"><use xlink:href="#random"></use></svg>
+                                        <span><%- page.l.lucky %></span>
+                                    </a>
+                                    <a href="javascript:void(0)" class="button button_type_with-icon full-width" id="show-filter">
+                                        <span><%- page.l.filter %></span>
+                                    </a>
+                                </div>
+                                <script src="/themes/<%- page.theme %>/public/js/nouislider.min.js"></script>
+                                <script>
+                                    var cinemapress_filter = document.getElementById('cinemapress-filter').innerHTML;
+                                    var cinemapress_slider = document.getElementById('cinemapress-slider');
+                                    var filter_container = document.querySelector('.filter-container');
+                                    var year_min = parseInt('<%- page.urls.years[page.urls.years.length-1].title %>');
+                                    var year_max = parseInt('<%- page.urls.years[0].title %>');
+                                    var page_urls_search = '<%- page.urls.search %>';
+                                    var page_urls_year = '<%- page.urls.year %>';
+
+                                    function customSlider() {
+                                        cinemapress_slider = document.getElementById('cinemapress-slider');
+                                        noUiSlider.create(cinemapress_slider, {
+                                            start: [year_min, year_max],
+                                            connect: true,
+                                            step: 1,
+                                            range: {
+                                                'min': [year_min],
+                                                'max': [year_max]
+                                            },
+                                            tooltips: [true, true],
+                                            pips: {
+                                                mode: 'count',
+                                                values: 11,
+                                                density: 1,
+                                                stepped: true
+                                            },
+                                            format: {
+                                                to: (v) => parseFloat(v).toFixed(0),
+                                                from: (v) => parseFloat(v).toFixed(0)
+                                            }
+                                        });
+                                    }
+                                    function customSelect() {
+                                        var x, i, j, l, ll, selElement, a, b, c;
+                                        x = document.getElementsByClassName("custom-select");
+                                        l = x.length;
+                                        for (i = 0; i < l; i++) {
+                                            selElement = x[i].getElementsByTagName("select")[0];
+                                            ll = selElement.length;
+                                            a = document.createElement("DIV");
+                                            a.setAttribute("class", "select-selected");
+                                            a.innerHTML = selElement.options[selElement.selectedIndex].innerHTML;
+                                            x[i].appendChild(a);
+                                            b = document.createElement("DIV");
+                                            b.setAttribute("class", "select-items select-hide");
+                                            for (j = 1; j < ll; j++) {
+                                                c = document.createElement("DIV");
+                                                c.innerHTML = selElement.options[j].innerHTML;
+                                                c.addEventListener("click", function(e) {
+                                                    var y, i, k, s, h, sl, yl;
+                                                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                                                    sl = s.length;
+                                                    h = this.parentNode.previousSibling;
+                                                    for (i = 0; i < sl; i++) {
+                                                        if (s.options[i].innerHTML === this.innerHTML) {
+                                                            s.selectedIndex = i;
+                                                            h.innerHTML = this.innerHTML;
+                                                            y = this.parentNode.getElementsByClassName("same-as-selected");
+                                                            yl = y.length;
+                                                            for (k = 0; k < yl; k++) {
+                                                                y[k].removeAttribute("class");
+                                                            }
+                                                            this.setAttribute("class", "same-as-selected");
+                                                            break;
+                                                        }
+                                                    }
+                                                    h.click();
+                                                });
+                                                b.appendChild(c);
+                                            }
+                                            x[i].appendChild(b);
+                                            a.addEventListener("click", function(e) {
+                                                e.stopPropagation();
+                                                closeAllSelect(this);
+                                                this.nextSibling.classList.toggle("select-hide");
+                                                this.classList.toggle("select-arrow-active");
+                                            });
+                                        }
+                                    }
+
+                                    function closeAllSelect(e) {
+                                        var x, y, i, xl, yl, arrNo = [];
+                                        x = document.getElementsByClassName("select-items");
+                                        y = document.getElementsByClassName("select-selected");
+                                        xl = x.length;
+                                        yl = y.length;
+                                        for (i = 0; i < yl; i++) {
+                                            if (e === y[i]) {
+                                                arrNo.push(i)
+                                            } else {
+                                                y[i].classList.remove("select-arrow-active");
+                                            }
+                                        }
+                                        for (i = 0; i < xl; i++) {
+                                            if (arrNo.indexOf(i)) {
+                                                x[i].classList.add("select-hide");
+                                            }
+                                        }
+                                    }
+
+                                    function submitData() {
+                                        var years = cinemapress_slider.noUiSlider.get();
+                                        var year = years[0] === years[1] ? years[0] : years[0] + '-' + years[1];
+                                        var url = '/' + page_urls_search + '?' + page_urls_year + '=' + year;
+                                        var hash = '#year=' + year;
+                                        document.querySelectorAll('[data-url]').forEach(function(e) {
+                                            var v = encodeURIComponent(e.value || e.options[e.selectedIndex].value);
+                                            if (v) {
+                                                hash += '|' + e.dataset.url_name + '=' + v;
+                                                url += '&' + e.dataset.url + '=' + v;
+                                            }
+                                        });
+                                        window.location.href = url + hash;
+                                    }
+
+                                    function resetData() {
+                                        cinemapress_slider.noUiSlider.set([year_min, year_max]);
+                                        document.querySelectorAll('[data-url]').forEach(function(s) {
+                                            s.selectedIndex = null;
+                                        });
+                                        document.getElementById('cinemapress-filter').innerHTML = cinemapress_filter;
+                                        document.getElementById('random-filter').addEventListener('click', randomData);
+                                        document.getElementById('reset-filter').addEventListener('click', resetData);
+                                        document.getElementById('submit-filter').addEventListener('click', submitData);
+                                        customSelect();
+                                    }
+
+                                    function randomData() {
+                                        var years = cinemapress_slider.noUiSlider.get();
+                                        var year = years[0] === years[1] ? years[0] : years[0] + '-' + years[1];
+                                        var url = '/' + page_urls_search + '?' + page_urls_year + '=' + year;
+                                        document.querySelectorAll('[data-url]').forEach(function(e) {
+                                            var v = encodeURIComponent(e.value || e.options[e.selectedIndex].value);
+                                            if (v) {
+                                                url += '&' + e.dataset.url + '=' + v;
+                                            }
+                                        });
+                                        window.location.href = filter_container.style.display === 'block'
+                                            ? url + '&random=' + Math.random()
+                                            : '<%- page.url %><%- (page.url.indexOf('?') + 1 ? '&' : '?') %>random=<%- Math.random() %>';
+                                    }
+
+                                    function setHashData() {
+                                        customSlider();
+                                        if(window.location.hash) {
+                                            var hash = decodeURIComponent(window.location.hash.substring(1));
+                                            hash.split('|').forEach(function (key_val) {
+                                                if (key_val.indexOf('=') + 1) {
+                                                    var key = key_val.split('=')[0];
+                                                    var val = key_val.split('=')[1];
+                                                    if (key === 'year') {
+                                                        var year = val.split('-');
+                                                        var year_min_new = parseInt(year[0]);
+                                                        var year_max_new = parseInt(year[1] || year[0]);
+                                                        cinemapress_slider.noUiSlider.set([year_min_new, year_max_new]);
+                                                    }
+                                                    var el_opt = document.querySelectorAll('[data-url]');
+                                                    el_opt.forEach(function(e) {
+                                                        if (e.dataset.url_name === key) {
+                                                            for (var i = 0; i < e.options.length; i++) {
+                                                                if (e.options[i].value === val) {
+                                                                    e.options[i].selected = true;
+                                                                    e.selectedIndex = i;
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                            if (filter_container && hash.indexOf('=') + 1) {
+                                                filter_container.style.display = 'block'; // Если в URL #hash есть знак равенства, открываем фильтр
+                                            }
+                                        }
+                                        customSelect();
+                                    }
+
+                                    function showData() {
+                                        if (filter_container && filter_container.style.display === 'none') {
+                                            filter_container.style.display = 'block'; // Если фильтр скрыт - открываем
+                                        } else {
+                                            filter_container.style.display = 'none'; // Если фильтр открыт - скрываем
+                                        }
+                                    }
+
+                                    document.getElementById('random-filter').addEventListener('click', randomData);
+                                    document.getElementById('reset-filter').addEventListener('click', resetData);
+                                    document.getElementById('submit-filter').addEventListener('click', submitData);
+                                    document.getElementById('show-filter').addEventListener('click', showData);
+                                    document.addEventListener('click', closeAllSelect);
+                                    setHashData();
+                                </script>
+                                <style>
+                                    .custom-select{position:relative;background:0 0;border:1px #72436f solid;border-radius:8px;color:#e79899}.custom-select select{display:none}.select-selected{background:0 0}.select-selected:after{position:absolute;content:"";top:18px;right:10px;width:0;height:0;border:6px solid transparent;border-color:#f07d7f transparent transparent transparent}.select-selected.select-arrow-active:after{border-color:transparent transparent #964c8c transparent;top:10px}.select-items div,.select-selected{color:#e79899;padding:8px 16px;border:1px solid transparent;cursor:pointer;user-select:none}.select-items{position:absolute;background:0 0;color:#e79899;top:100%;left:0;right:0;z-index:99}.select-hide{display:none}.select-items{border:1px #563550 solid;border-radius:8px;background-color:rgba(0,0,0,.7)}.select-items div{color:#fff;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.same-as-selected,.select-items div:hover{border-radius:8px;background-color:rgba(0,0,0,.3)}.filter-slider{margin:60px auto;padding:10px 25px 10px 10px}.noUi-connect{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0}.noUi-horizontal .noUi-handle,.noUi-vertical .noUi-handle{background-image:-webkit-gradient(linear,left top,right top,from(#944b8c),to(#f37f7f));background-image:-o-linear-gradient(left,#944b8c,#f37f7f);background-image:linear-gradient(to right,#944b8c,#f37f7f)}.noUi-value{color:#72436f!important}.noUi-marker{color:#302f3f!important;background:#302f3f!important}.noUi-horizontal{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0;color:#fff}.noUi-target.noUi-horizontal{background-image:-webkit-gradient(linear,left top,right top,from(#f37f7f),to(#944b8c));background-image:-o-linear-gradient(left,#f37f7f,#944b8c);background-image:linear-gradient(to right,#f37f7f,#944b8c);border:0;color:#fff}.noUi-tooltip{background-image:-webkit-gradient(linear,left top,right top,from(#944b8c),to(#f37f7f));background-image:-o-linear-gradient(left,#944b8c,#f37f7f);background-image:linear-gradient(to right,#944b8c,#f37f7f);border:0;color:#fff}.noUi-horizontal{height:10px!important;border:0!important;background:#302f3f!important;box-shadow:none!important}.noUi-handle{box-shadow:none!important;border-radius:100%!important;border:0!important;width:20px!important;height:20px!important}.noUi-handle::after,.noUi-handle::before{background:0 0!important}.select-selected{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+                                </style>
+                            </div>
+                        <% } %>
+                        <div class="last-episodes" id="last-episodes-wrapper">
+                            <div data-content="">
+                                <div class="last-episodes-day" data-day="future">
+                                    <div class="catalog">
+                                        <% /* Цикл фильмов */ %>
+                                        <% if (typeof movies === 'object' && movies.length) { %>
+                                            <% movies.forEach(function (movie, i) { %>
+                                                <%- include('includes/single.ejs', {movie: movie, block: i}); -%>
+                                            <% }); %>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-bottom-block" id="cinemapress-scroll">
+                                <% if (typeof page.pagination === 'object') { %>
+                                    <% if (page.pagination.next.length) { %>
+                                        <a class="button pagination__next" href="<%- page.pagination.next[0].link %>">
+                                            <span><%- page.pagination.next[0].number %></span>
+                                        </a>
+                                        <script>var next_url = '<%- page.pagination.next[0].link %>';</script>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <script src="/themes/<%- page.theme %>/public/js/infinite-scroll.pkgd.min.js"></script>
+                        <script>
+                            if (typeof next_url !== 'undefined') {
+                                let elem = document.querySelector('.catalog');
+                                let infScroll = new InfiniteScroll( elem, {
+                                    path: function() {
+                                        if (this.loadCount < 2) this.loadCount = 2;
+                                        next_url = next_url.replace(/\/[0-9]*($|\?)/i, '/' + this.loadCount + '$1');
+                                        document.querySelector('.pagination__next').setAttribute('href', next_url);
+                                        document.querySelector('.pagination__next span').innerHTML = this.loadCount;
+                                        return next_url;
+                                    },
+                                    append: '.catalog-item',
+                                    history: true
+                                });
+                                infScroll.on('last', function() {
+                                    document.getElementById('cinemapress-scroll').style.display = 'none';
+                                });
+                            } else {
+                                document.getElementById('cinemapress-scroll').style.display = 'none';
+                            }
+                        </script>
+                        <% /* Реклама внизу страницы */ %>
+                        <% if (typeof page.adv === 'object' && page.adv.bottom) { %>
+                            <hr>
+                            <div style="text-align:center;margin:10px auto">
+                                <%- page.adv.bottom %>
+                            </div>
+                            <hr>
+                        <% } %>
+                            <% /* Описание страницы */ %>
+                            <% if (page.seo) { %>
+                                <hr>
+                                <div class="page-description">
+                                    <div style="text-align:justify;margin:10px auto">
+                                        <%- page.seo %>
+                                    </div>
+                                </div>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <%- include('includes/footer.ejs'); -%>
+        </footer>
+    </div>
+</body>
+
+</html>

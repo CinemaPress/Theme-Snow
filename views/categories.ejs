@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="<%- page.language %>">
+
+<head>
+    <%- include('includes/head.ejs'); -%>
+</head>
+
+<body>
+<% /* Брендирование страницы (сразу после <body>) */ %>
+<% if (typeof page.adv === 'object' && page.adv.brand) { %>
+    <%- page.adv.brand %>
+<% } %>
+<div class="wrap">
+    <main>
+        <header class="header" id="header">
+            <%- include('includes/header.ejs'); -%>
+        </header>
+        <div class="header-search__backdrop"></div>
+        <div class="content">
+            <div class="container">
+                <% /* Реклама вверху страницы */ %>
+                <% if (typeof page.adv === 'object' && page.adv.top) { %>
+                    <div style="text-align:center;margin:10px auto">
+                        <%- page.adv.top %>
+                    </div>
+                <% } %>
+
+                <% /* H1 тег */ %>
+                <h1><%- page.h1 %></h1>
+
+                <% /* Список категорий (годы, жанры, страны, актеры, режиссеры) */ %>
+                <% if (typeof categories === 'object' && categories.length) { %>
+                    <% categories.forEach(function (content) { %>
+                        <div style="float:left;width:50%;">
+                            <div style="margin:10px;padding:0;position:relative">
+                                <div class="cinemapress-categories" style="background-image:url('<%- content.image %>');"></div>
+                                <a href="<%- content.url %>" class="cinemapress-categories-title"><%= content.title %></a>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } %>
+
+                <% /* Описание страницы */ %>
+                <% if (page.seo) { %>
+                    <div style="text-align:center;margin:10px auto">
+                        <%- page.seo %>
+                    </div>
+                <% } %>
+
+                <% /* Реклама внизу страницы */ %>
+                <% if (typeof page.adv === 'object' && page.adv.bottom) { %>
+                    <div style="text-align:center;margin:10px auto">
+                        <%- page.adv.bottom %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <%- include('includes/footer.ejs'); -%>
+    </footer>
+</div>
+</body>
+
+</html>
