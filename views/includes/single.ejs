@@ -16,11 +16,11 @@
         <span id="trailer<%- movie_id %>" data-name_item="<%- page.l.trailer %>">
             <% if (page.urls.movies.trailer) { %><%- movie.url %>/<%- page.urls.movies.trailer %><% } %>
         </span>
-        <span id="firstEpisodeUrl<%- movie_id %>" data-name_item="<%- page.l.online %>">
-            <% if (page.urls.movies.online) { %><%- movie.url %>/<%- page.urls.movies.online %><% } %>
-        </span>
-        <span id="aboutSerialLink<%- movie_id %>" data-name_item="<%- page.l.more %>">
+        <span id="firstEpisodeUrl<%- movie_id %>" data-name_item="<%- page.l.more %>">
             <%- movie.url %>
+        </span>
+        <span id="aboutSerialLink<%- movie_id %>" data-name_item="<%- page.l.trailer %>">
+            <% if (page.urls.movies.trailer) { %><%- movie.url %>/<%- page.urls.movies.trailer %><% } %>
         </span>
     </span>
     <a href="<%- movie.url %>" title="<%= movie.title %>"></a>

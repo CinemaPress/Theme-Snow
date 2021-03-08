@@ -195,6 +195,11 @@
                                         var page_urls_year = '<%- page.urls.year %>';
 
                                         function customSlider() {
+                                            var win = window,
+                                                doc = document,
+                                                docElem = doc.documentElement,
+                                                body = doc.getElementsByTagName('body')[0],
+                                                x = win.innerWidth || docElem.clientWidth || body.clientWidth;
                                             cinemapress_slider = document.getElementById('cinemapress-slider');
                                             noUiSlider.create(cinemapress_slider, {
                                                 start: [year_min, year_max],
@@ -207,7 +212,7 @@
                                                 tooltips: [true, true],
                                                 pips: {
                                                     mode: 'count',
-                                                    values: 11,
+                                                    values: x && x < 400 ? 5 : 11,
                                                     density: 1,
                                                     stepped: true
                                                 },
@@ -397,6 +402,8 @@
                                                         <% } %>
                                                     </div>
 
+                                                    <hr>
+
                                                 <% }); %>
                                             <% } %>
                                         <% } %>
@@ -404,7 +411,6 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
                         <% /* Блок с новостями */ %>
                         <% if (typeof news === 'object' && news.length) { %>
                             <% news.forEach(function (content) { %>

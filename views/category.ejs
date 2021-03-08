@@ -153,6 +153,11 @@
 
                                     function customSlider() {
                                         cinemapress_slider = document.getElementById('cinemapress-slider');
+                                        var win = window,
+                                            doc = document,
+                                            docElem = doc.documentElement,
+                                            body = doc.getElementsByTagName('body')[0],
+                                            x = win.innerWidth || docElem.clientWidth || body.clientWidth;
                                         noUiSlider.create(cinemapress_slider, {
                                             start: [year_min, year_max],
                                             connect: true,
@@ -164,7 +169,7 @@
                                             tooltips: [true, true],
                                             pips: {
                                                 mode: 'count',
-                                                values: 11,
+                                                values: x && x < 400 ? 5 : 11,
                                                 density: 1,
                                                 stepped: true
                                             },

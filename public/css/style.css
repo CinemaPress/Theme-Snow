@@ -53,4 +53,4 @@
 }
 
 .scroll-top-button{position:fixed;right:13px;bottom:17px;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;transition:all .2s ease-in-out;opacity:0;visibility:hidden;z-index:1000}.scroll-top-button.visible{opacity:1;visibility:visible}.scroll-top-button svg{width:27px;height:29px}.scroll-top-button svg.desktop{display:none}@media only screen and (min-width: 994px){.scroll-top-button{right:60px;bottom:100px;cursor:pointer}.scroll-top-button svg{width:58px;height:58px;--circle-border: url(#linear-gradient-color2);--arrow: var(--color-pink);--circle-opacity: 0.9;--circle-background: var(--color-gray);--circle-fill-opacity: 1}.scroll-top-button svg.desktop{display:block}.scroll-top-button svg.mobile{display:none}.scroll-top-button:hover svg{--arrow: var(--color-text);--circle-fill-opacity: 0.3;--circle-background: var(--color-dark-pink)}}
-
+.last-episodes-day__title{font-size: 20px;font-weight: bold}

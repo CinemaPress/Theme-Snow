@@ -41,18 +41,12 @@
             }));
             e.push(n[2] = s);
             var a, l = document.createElement("script");
-            l.charset = "utf-8", l.timeout = 120, o.nc && l.setAttribute("nonce", o.nc), l.src = function (t) {
-                return o.p + "" + ({0: "js/filter", 2: "js/scroll_top", 3: "js/vendors~filter"}[t] || t) + ".js?2"
-            }(t);
+            l.charset = "utf-8", l.timeout = 120, o.nc && l.setAttribute("nonce", o.nc), l.src = '';
             var c = new Error;
             a = function (e) {
                 l.onerror = l.onload = null, clearTimeout(u);
                 var n = i[t];
                 if (0 !== n) {
-                    if (n) {
-                        var r = e && ("load" === e.type ? "missing" : e.type), o = e && e.target && e.target.src;
-                        c.message = "Loading chunk " + t + " failed.\n(" + r + ": " + o + ")", c.name = "ChunkLoadError", c.type = r, c.request = o, n[1](c)
-                    }
                     i[t] = void 0
                 }
             };
