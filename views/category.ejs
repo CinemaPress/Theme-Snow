@@ -377,7 +377,7 @@
                                         if (this.loadCount < 2) this.loadCount = 2;
                                         next_url = next_url.replace(/\/[0-9]*($|\?)/i, '/' + this.loadCount + '$1');
                                         document.querySelector('.pagination__next').setAttribute('href', next_url);
-                                        document.querySelector('.pagination__next span').innerHTML = this.loadCount;
+                                        document.querySelector('.pagination__next span').innerHTML = '<div class="loader"></div>';
                                         return next_url;
                                     },
                                     append: '.catalog-item',
