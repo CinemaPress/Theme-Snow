@@ -1,5 +1,6 @@
 <div class="catalog-item catalog-item_type_poster">
     <% var movie_id = movie.id + '' + (typeof block !== 'undefined' ? block : '') %>
+    <% var movie_blank = typeof blank !== 'undefined' ? ' target="_blank" ' : '' %>
     <span style="display: none">
         <span id="rate<%- movie_id %>" data-name_item="<%- page.l.rating %>">
             <% if (movie.vote) { %><%- movie.rating / 10 %><% } %>
@@ -23,12 +24,12 @@
             <% if (page.urls.movies.trailer) { %><%- movie.url %>/<%- page.urls.movies.trailer %><% } %>
         </span>
     </span>
-    <a href="<%- movie.url %>" title="<%= movie.title %>"></a>
+    <a href="<%- movie.url %>" title="<%= movie.title %>" <%- movie_blank %>></a>
     <i class="catalog-item__icon-info" data-serial-id="<%- movie_id %>">
         <svg class="icon-svg-info"><use xlink:href="#info"></use></svg>
     </i>
     <div class="catalog-item__img">
-        <img src="<%- movie.poster_min %>" alt="<%= movie.title %>" srcset="<%- movie.poster %> 2x">
+        <img src="<%- movie.poster_min %>" alt="<%= movie.title %>" data-src="<%- movie.poster %>" class="lazy">
     </div>
     <div class="catalog-item__title"><%- movie.title %><%- movie.year ? ' <small>(' + movie.year + ')</small>' : '' %></div>
 </div>

@@ -351,7 +351,7 @@
                                         <% /* Цикл фильмов */ %>
                                         <% if (typeof movies === 'object' && movies.length) { %>
                                             <% movies.forEach(function (movie, i) { %>
-                                                <%- include('includes/single.ejs', {movie: movie, block: i}); -%>
+                                                <%- include('includes/single.ejs', {movie: movie, block: i, blank: true}); -%>
                                             <% }); %>
                                         <% } %>
                                     </div>
@@ -386,6 +386,9 @@
                                 infScroll.on('last', function() {
                                     document.getElementById('cinemapress-scroll').style.display = 'none';
                                 });
+                                infScroll.on('append', function() {
+                                    window.lazyLoadInstance.update();
+                                });
                             } else {
                                 document.getElementById('cinemapress-scroll').style.display = 'none';
                             }
@@ -411,6 +414,15 @@
                 </div>
             </div>
         </main>
+        <script>
+          window.addEventListener(
+            "LazyLoad::Initialized",
+            function (event) {
+              window.lazyLoadInstance = event.detail.instance;
+            },
+            false
+          );
+        </script>
         <footer class="footer">
             <%- include('includes/footer.ejs'); -%>
         </footer>

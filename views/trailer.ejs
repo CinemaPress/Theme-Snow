@@ -249,7 +249,7 @@
                                                 <% movie.pictures.forEach(function (picture) { %>
                                                     <div class="custom-slider__slide">
                                                         <a href="javascript:void(0);">
-                                                            <img src="<%- picture.picture_min %>" data-src="<%- picture.picture %>" data-original="<%- picture.picture_big %>" alt="<%= movie.title %>" class="lazy">
+                                                            <img src="<%- picture.picture_min %>" data-src="<%- picture.picture_big %>" data-original="<%- picture.picture_big %>" alt="<%= movie.title %>" class="lazy">
                                                         </a>
                                                     </div>
                                                 <% }); %>
