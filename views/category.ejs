@@ -106,12 +106,24 @@
                                             <div class="custom-select select form-control select-init">
                                                 <select data-url="sorting" data-url_name="sorting">
                                                     <option value="" selected="selected"><%- page.l.sorting %>:</option>
-                                                    <option value="kinopoisk-rating-up"><%- page.l['kinopoisk-rating-up'] %></option>
-                                                    <option value="imdb-rating-up"><%- page.l['imdb-rating-up'] %></option>
-                                                    <option value="kinopoisk-vote-up"><%- page.l['kinopoisk-vote-up'] %></option>
-                                                    <option value="imdb-vote-up"><%- page.l['imdb-vote-up'] %></option>
-                                                    <option value="year-up"><%- page.l['year-up'] %></option>
-                                                    <option value="premiere-up"><%- page.l['premiere-up'] %></option>
+                                                    <% if (page.l['kinopoisk-rating-up']) { %>
+                                                        <option value="kinopoisk-rating-up"><%- page.l['kinopoisk-rating-up'] %></option>
+                                                    <% } %>
+                                                    <% if (page.l['imdb-rating-up']) { %>
+                                                        <option value="imdb-rating-up"><%- page.l['imdb-rating-up'] %></option>
+                                                    <% } %>
+                                                    <% if (page.l['kinopoisk-vote-up']) { %>
+                                                        <option value="kinopoisk-vote-up"><%- page.l['kinopoisk-vote-up'] %></option>
+                                                    <% } %>
+                                                    <% if (page.l['imdb-vote-up']) { %>
+                                                        <option value="imdb-vote-up"><%- page.l['imdb-vote-up'] %></option>
+                                                    <% } %>
+                                                    <% if (page.l['year-up']) { %>
+                                                        <option value="year-up"><%- page.l['year-up'] %></option>
+                                                    <% } %>
+                                                    <% if (page.l['premiere-up']) { %>
+                                                        <option value="premiere-up"><%- page.l['premiere-up'] %></option>
+                                                    <% } %>
                                                 </select>
                                             </div>
                                             <button id="reset-filter" class="button button_type_border">
