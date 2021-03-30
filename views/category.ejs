@@ -317,9 +317,9 @@
                                                     }
                                                     var el_opt = document.querySelectorAll('[data-url]');
                                                     el_opt.forEach(function(e) {
-                                                        if (e.dataset.url_name === key) {
+                                                        if (key && e.dataset.url_name === key) {
                                                             for (var i = 0; i < e.options.length; i++) {
-                                                                if (e.options[i].value === val) {
+                                                                if (val && e.options[i].value === val) {
                                                                     e.options[i].selected = true;
                                                                     e.selectedIndex = i;
                                                                     break;

@@ -13,17 +13,17 @@
                 <nav class="navigation-links">
                     <ul>
                         <li>
-                            <a href="/<%- page.urls.type %>/<%- page.urls.types.movie %>#type=<%- page.urls.types.movie %>">
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.movie %>?sorting=imdb-vote-up#type=<%- page.urls.types.movie %>|sorting=imdb-vote-up">
                                 <span><%- page.l.movies %></span>
                             </a>
                         </li>
                         <li>
-                            <a href="/<%- page.urls.type %>/<%- page.urls.types.serial %>#type=<%- page.urls.types.serial %>">
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.serial %>?sorting=imdb-vote-up#type=<%- page.urls.types.serial %>|sorting=imdb-vote-up">
                                 <span><%- page.l.series %></span>
                             </a>
                         </li>
                         <li>
-                            <a href="/<%- page.urls.type %>/<%- page.urls.types.anime %>#genre=<%- page.urls.types.anime %>">
+                            <a href="/<%- page.urls.type %>/<%- page.urls.types.anime %>?sorting=imdb-vote-up#genre=<%- (page.types && page.types.anime && page.types.anime.genre || '') %>|country=<%- (page.types && page.types.anime && page.types.anime.country || '') %>|sorting=imdb-vote-up">
                                 <span><%- page.l.anime %></span>
                             </a>
                         </li>
