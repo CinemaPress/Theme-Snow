@@ -12,7 +12,7 @@
             <%- movie.genres %>
         </span>
         <span id="description<%- movie_id %>" data-name_item="<%- page.l.storyline %>">
-            <%- movie.description %>
+            <%= movie.description %>
         </span>
         <span id="trailer<%- movie_id %>" data-name_item="<%- page.l.trailer %>">
             <% if (page.urls.movies.trailer) { %><%- movie.url %>/<%- page.urls.movies.trailer %><% } %>
