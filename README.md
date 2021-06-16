@@ -1,10 +1,10 @@
 # Theme «snow»
 
-![Theme «snow» for CinemaPress](https://raw.githubusercontent.com/CinemaPress/Theme-Snow/master/screenshot.png "Theme «snow» for CinemaPress")
+![Theme «snow» for CinemaPress](https://raw.githubusercontent.com/CinemaPress/Theme-Snow/master/screenshot.png)
 
 :art: Theme «snow» for CinemaPress
 
-- [Snow.CinemaPress.io](http://Snow.CinemaPress.io/)
+- `«snow»`
 
 ## How to install?
 1. Download [GitHub](https://github.com/CinemaPress/Theme-Snow/archive/master.zip) or [GitLab](https://gitlab.com/CinemaPress/Theme-Snow/repository/archive.zip) or [BitBucket](https://bitbucket.org/cinemapress/theme-snow/get/master.zip)
